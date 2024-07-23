@@ -1,0 +1,152 @@
+random_password.db_password: Refreshing state... [id=none]
+random_id.suffix: Refreshing state... [id=fEaFdeM]
+random_password.db_root_password: Refreshing state... [id=none]
+random_password.keystore_password: Refreshing state... [id=none]
+google_iap_client.project_client: Refreshing state... [id=projects/167610392635/brands/167610392635/identityAwareProxyClients/167610392635-drmksah6ggm9q2g7740bodv7goitvuqp.apps.googleusercontent.com]
+google_project_iam_custom_role.iap-jwt-verify-role: Refreshing state... [id=projects/mpl328-dev-bb46/roles/iap_jwt_verifier]
+google_compute_network.vpc: Refreshing state... [id=projects/mpl328-dev-bb46/global/networks/guacamole-vpc]
+google_service_account.svc-gke-node: Refreshing state... [id=projects/mpl328-dev-bb46/serviceAccounts/svc-gke-node@mpl328-dev-bb46.iam.gserviceaccount.com]
+module.project-services.google_project_service.project_services["iap.googleapis.com"]: Refreshing state... [id=mpl328-dev-bb46/iap.googleapis.com]
+module.project-services.google_project_service.project_services["sqladmin.googleapis.com"]: Refreshing state... [id=mpl328-dev-bb46/sqladmin.googleapis.com]
+module.project-services.google_project_service.project_services["servicenetworking.googleapis.com"]: Refreshing state... [id=mpl328-dev-bb46/servicenetworking.googleapis.com]
+module.project-services.google_project_service.project_services["artifactregistry.googleapis.com"]: Refreshing state... [id=mpl328-dev-bb46/artifactregistry.googleapis.com]
+module.project-services.google_project_service.project_services["cloudresourcemanager.googleapis.com"]: Refreshing state... [id=mpl328-dev-bb46/cloudresourcemanager.googleapis.com]
+module.project-services.google_project_service.project_services["compute.googleapis.com"]: Refreshing state... [id=mpl328-dev-bb46/compute.googleapis.com]
+module.project-services.google_project_service.project_services["serviceusage.googleapis.com"]: Refreshing state... [id=mpl328-dev-bb46/serviceusage.googleapis.com]
+module.project-services.google_project_service.project_services["stackdriver.googleapis.com"]: Refreshing state... [id=mpl328-dev-bb46/stackdriver.googleapis.com]
+module.project-services.google_project_service.project_services["container.googleapis.com"]: Refreshing state... [id=mpl328-dev-bb46/container.googleapis.com]
+module.project-services.google_project_service.project_services["cloudbuild.googleapis.com"]: Refreshing state... [id=mpl328-dev-bb46/cloudbuild.googleapis.com]
+google_project_iam_member.iap-web-user: Refreshing state... [id=mpl328-dev-bb46/roles/iap.httpsResourceAccessor/user:mpl328@nyu.edu]
+google_compute_subnetwork.subnet: Refreshing state... [id=projects/mpl328-dev-bb46/regions/us-central1/subnetworks/guacamole-host-subnet]
+google_project_iam_member.iap-tcp-user: Refreshing state... [id=mpl328-dev-bb46/roles/iap.tunnelResourceAccessor/user:mpl328@nyu.edu]
+google_project_iam_member.svc-gke-node-iam["roles/monitoring.metricWriter"]: Refreshing state... [id=mpl328-dev-bb46/roles/monitoring.metricWriter/serviceAccount:svc-gke-node@mpl328-dev-bb46.iam.gserviceaccount.com]
+local_file.iap-secrets: Refreshing state... [id=d86eba6e5f9d96d7021c609c8b9bee3325c9e422]
+local_file.insert-admin-user: Refreshing state... [id=53bae42dea829c940bbc0e3774c527d2fc1ee204]
+google_project_iam_member.svc-gke-node-iam["roles/stackdriver.resourceMetadata.writer"]: Refreshing state... [id=mpl328-dev-bb46/roles/stackdriver.resourceMetadata.writer/serviceAccount:svc-gke-node@mpl328-dev-bb46.iam.gserviceaccount.com]
+google_compute_firewall.vpc-firewall: Refreshing state... [id=projects/mpl328-dev-bb46/global/firewalls/permit-ssh-via-iap]
+google_project_iam_member.svc-gke-node-iam["roles/logging.logWriter"]: Refreshing state... [id=mpl328-dev-bb46/roles/logging.logWriter/serviceAccount:svc-gke-node@mpl328-dev-bb46.iam.gserviceaccount.com]
+google_project_iam_member.svc-gke-node-iam["roles/monitoring.viewer"]: Refreshing state... [id=mpl328-dev-bb46/roles/monitoring.viewer/serviceAccount:svc-gke-node@mpl328-dev-bb46.iam.gserviceaccount.com]
+local_file.guacamole-properties: Refreshing state... [id=0bd6f7ad3c415c8adbc17c4988e6545003f3fdd2]
+google_compute_global_address.private_ip_address: Refreshing state... [id=projects/mpl328-dev-bb46/global/addresses/private-ip-address]
+google_artifact_registry_repository.guac-repo: Refreshing state... [id=projects/mpl328-dev-bb46/locations/us-central1/repositories/guac-repo]
+google_compute_router.router: Refreshing state... [id=projects/mpl328-dev-bb46/regions/us-central1/routers/guacamole-router]
+google_container_cluster.gke: Refreshing state... [id=projects/mpl328-dev-bb46/locations/us-central1/clusters/guacamole-gke]
+google_compute_address.guacamole-internal: Refreshing state... [id=projects/mpl328-dev-bb46/regions/us-central1/addresses/guacamole-internal]
+google_service_networking_connection.private_vpc_connection: Refreshing state... [id=projects%2Fmpl328-dev-bb46%2Fglobal%2Fnetworks%2Fguacamole-vpc:servicenetworking.googleapis.com]
+google_artifact_registry_repository_iam_member.artifactregistry-iam: Refreshing state... [id=projects/mpl328-dev-bb46/locations/us-central1/repositories/guac-repo/roles/artifactregistry.reader/serviceAccount:167610392635-compute@developer.gserviceaccount.com]
+google_compute_router_nat.nat: Refreshing state... [id=mpl328-dev-bb46/us-central1/guacamole-router/guacamole-router-nat]
+local_file.tomcat-server-xml: Refreshing state... [id=0b584daaefe8cecb58df23d751344871b1aa2c9c]
+local_file.guacamole-client-managedcert: Refreshing state... [id=afd5ac82ee4822bdcb44a922375e94af12ccf07d]
+google_sql_database_instance.guacamole-mysql: Refreshing state... [id=guacamole-mysql-7c468575e3]
+local_file.client-settings-properties: Refreshing state... [id=20334a60f8c74f447d81daf8efce13d3e8136a2c]
+google_sql_user.guac-db-root: Refreshing state... [id=root/%/guacamole-mysql-7c468575e3]
+google_sql_user.guac-db-user: Refreshing state... [id=guac-db-user/%/guacamole-mysql-7c468575e3]
+google_sql_ssl_cert.db-client-cert: Refreshing state... [id=projects/mpl328-dev-bb46/instances/guacamole-mysql-7c468575e3/sslCerts/87d22f4f4636c043271c77a2e4b64f604d3406f9]
+google_compute_instance.db-management: Refreshing state... [id=projects/mpl328-dev-bb46/zones/us-central1-c/instances/db-mgmt-vm]
+local_file.db-secrets-properties: Refreshing state... [id=3028eb1e3f37d8674b4d9a70ab51435fb15155fd]
+google_compute_firewall.permit-guac-to-vm-traffic: Refreshing state... [id=projects/mpl328-dev-bb46/global/firewalls/permit-guacd-to-vm-traffic]
+
+Note: Objects have changed outside of Terraform
+
+Terraform detected the following changes made outside of Terraform since the
+last "terraform apply":
+
+  # google_project_iam_member.iap-tcp-user has been changed
+  ~ resource "google_project_iam_member" "iap-tcp-user" {
+      ~ etag    = "BwYd7a64KKY=" -> "BwYd71+OyVg="
+        id      = "mpl328-dev-bb46/roles/iap.tunnelResourceAccessor/user:mpl328@nyu.edu"
+        # (3 unchanged attributes hidden)
+    }
+  # google_project_iam_member.svc-gke-node-iam["roles/logging.logWriter"] has been changed
+  ~ resource "google_project_iam_member" "svc-gke-node-iam" {
+      ~ etag    = "BwYd7a64KKY=" -> "BwYd71+OyVg="
+        id      = "mpl328-dev-bb46/roles/logging.logWriter/serviceAccount:svc-gke-node@mpl328-dev-bb46.iam.gserviceaccount.com"
+        # (3 unchanged attributes hidden)
+    }
+  # google_project_iam_member.svc-gke-node-iam["roles/monitoring.metricWriter"] has been changed
+  ~ resource "google_project_iam_member" "svc-gke-node-iam" {
+      ~ etag    = "BwYd7a64KKY=" -> "BwYd71+OyVg="
+        id      = "mpl328-dev-bb46/roles/monitoring.metricWriter/serviceAccount:svc-gke-node@mpl328-dev-bb46.iam.gserviceaccount.com"
+        # (3 unchanged attributes hidden)
+    }
+  # google_project_iam_member.svc-gke-node-iam["roles/monitoring.viewer"] has been changed
+  ~ resource "google_project_iam_member" "svc-gke-node-iam" {
+      ~ etag    = "BwYd7a64KKY=" -> "BwYd71+OyVg="
+        id      = "mpl328-dev-bb46/roles/monitoring.viewer/serviceAccount:svc-gke-node@mpl328-dev-bb46.iam.gserviceaccount.com"
+        # (3 unchanged attributes hidden)
+    }
+  # google_project_iam_member.svc-gke-node-iam["roles/stackdriver.resourceMetadata.writer"] has been changed
+  ~ resource "google_project_iam_member" "svc-gke-node-iam" {
+      ~ etag    = "BwYd7a64KKY=" -> "BwYd71+OyVg="
+        id      = "mpl328-dev-bb46/roles/stackdriver.resourceMetadata.writer/serviceAccount:svc-gke-node@mpl328-dev-bb46.iam.gserviceaccount.com"
+        # (3 unchanged attributes hidden)
+    }
+  # google_project_iam_member.iap-web-user has been changed
+  ~ resource "google_project_iam_member" "iap-web-user" {
+      ~ etag    = "BwYd7a64KKY=" -> "BwYd71+OyVg="
+        id      = "mpl328-dev-bb46/roles/iap.httpsResourceAccessor/user:mpl328@nyu.edu"
+        # (3 unchanged attributes hidden)
+    }
+
+Unless you have made equivalent changes to your configuration, or ignored the
+relevant attributes using ignore_changes, the following plan may include
+actions to undo or respond to these changes.
+
+─────────────────────────────────────────────────────────────────────────────
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  ~ update in-place
+
+Terraform will perform the following actions:
+
+  # google_container_cluster.gke will be updated in-place
+  ~ resource "google_container_cluster" "gke" {
+        id                                       = "projects/mpl328-dev-bb46/locations/us-central1/clusters/guacamole-gke"
+        name                                     = "guacamole-gke"
+        # (28 unchanged attributes hidden)
+
+
+
+
+
+
+
+
+
+
+
+      ~ master_authorized_networks_config {
+            # (1 unchanged attribute hidden)
+
+          + cidr_blocks {
+              + cidr_block = "0.0.0.0/0"
+            }
+        }
+
+
+
+
+
+
+
+      ~ private_cluster_config {
+          ~ enable_private_endpoint = true -> false
+            # (4 unchanged attributes hidden)
+
+            # (1 unchanged block hidden)
+        }
+
+
+
+
+
+        # (27 unchanged blocks hidden)
+    }
+
+Plan: 0 to add, 1 to change, 0 to destroy.
+
+─────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.

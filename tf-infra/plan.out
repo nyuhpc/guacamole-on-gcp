@@ -1,0 +1,1404 @@
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+ <= read (data resources)
+
+Terraform will perform the following actions:
+
+  # data.external.db-client-cert-keystore will be read during apply
+  # (config refers to values not yet known)
+ <= data "external" "db-client-cert-keystore"  {
+      + id          = (known after apply)
+      + program     = [
+          + "bash",
+          + "./tf-infra/bin/generate-keystore.sh",
+        ]
+      + query       = {
+          + "cert"              = (sensitive)
+          + "common_name"       = (known after apply)
+          + "keystore_password" = (sensitive)
+          + "private_key"       = (sensitive)
+          + "server_ca_cert"    = (sensitive)
+        }
+      + result      = (known after apply)
+      + working_dir = "../"
+    }
+
+  # data.external.wildcard-dns-url will be read during apply
+  # (config refers to values not yet known)
+ <= data "external" "wildcard-dns-url"  {
+      + id      = (known after apply)
+      + program = [
+          + "./bin/sslip-io-url.sh",
+        ]
+      + query   = {
+          + "externalip" = (known after apply)
+        }
+      + result  = (known after apply)
+    }
+
+  # google_artifact_registry_repository.guac-repo will be created
+  + resource "google_artifact_registry_repository" "guac-repo" {
+      + create_time      = (known after apply)
+      + description      = "Docker Repository For IAP Enabled Guacamole"
+      + effective_labels = (known after apply)
+      + format           = "DOCKER"
+      + id               = (known after apply)
+      + location         = "us-central1"
+      + mode             = "STANDARD_REPOSITORY"
+      + name             = (known after apply)
+      + project          = "mpl328-dev-bb46"
+      + repository_id    = "guac-repo"
+      + terraform_labels = (known after apply)
+      + update_time      = (known after apply)
+    }
+
+  # google_artifact_registry_repository_iam_member.artifactregistry-iam will be created
+  + resource "google_artifact_registry_repository_iam_member" "artifactregistry-iam" {
+      + etag       = (known after apply)
+      + id         = (known after apply)
+      + location   = "us-central1"
+      + member     = "serviceAccount:167610392635-compute@developer.gserviceaccount.com"
+      + project    = "mpl328-dev-bb46"
+      + repository = (known after apply)
+      + role       = "roles/artifactregistry.reader"
+    }
+
+  # google_compute_address.guacamole-internal will be created
+  + resource "google_compute_address" "guacamole-internal" {
+      + address            = (known after apply)
+      + address_type       = "INTERNAL"
+      + creation_timestamp = (known after apply)
+      + description        = "Internal IP Address Reservation for the Load Balancer"
+      + effective_labels   = (known after apply)
+      + id                 = (known after apply)
+      + label_fingerprint  = (known after apply)
+      + name               = "guacamole-internal"
+      + network_tier       = (known after apply)
+      + prefix_length      = (known after apply)
+      + project            = "mpl328-dev-bb46"
+      + purpose            = "GCE_ENDPOINT"
+      + region             = (known after apply)
+      + self_link          = (known after apply)
+      + subnetwork         = (known after apply)
+      + terraform_labels   = (known after apply)
+      + users              = (known after apply)
+    }
+
+  # google_compute_firewall.permit-guac-to-vm-traffic will be created
+  + resource "google_compute_firewall" "permit-guac-to-vm-traffic" {
+      + creation_timestamp = (known after apply)
+      + destination_ranges = (known after apply)
+      + direction          = (known after apply)
+      + enable_logging     = (known after apply)
+      + id                 = (known after apply)
+      + name               = "permit-guacd-to-vm-traffic"
+      + network            = "guacamole-vpc"
+      + priority           = 1000
+      + project            = "mpl328-dev-bb46"
+      + self_link          = (known after apply)
+      + source_ranges      = (known after apply)
+
+      + allow {
+          + ports    = [
+              + "22",
+              + "3389",
+            ]
+          + protocol = "tcp"
+        }
+    }
+
+  # google_compute_firewall.vpc-firewall will be created
+  + resource "google_compute_firewall" "vpc-firewall" {
+      + creation_timestamp = (known after apply)
+      + destination_ranges = (known after apply)
+      + direction          = (known after apply)
+      + enable_logging     = (known after apply)
+      + id                 = (known after apply)
+      + name               = "permit-ssh-via-iap"
+      + network            = "guacamole-vpc"
+      + priority           = 1000
+      + project            = "mpl328-dev-bb46"
+      + self_link          = (known after apply)
+      + source_ranges      = [
+          + "35.235.240.0/20",
+        ]
+
+      + allow {
+          + ports    = [
+              + "22",
+            ]
+          + protocol = "tcp"
+        }
+    }
+
+  # google_compute_global_address.private_ip_address will be created
+  + resource "google_compute_global_address" "private_ip_address" {
+      + address            = (known after apply)
+      + address_type       = "INTERNAL"
+      + creation_timestamp = (known after apply)
+      + effective_labels   = (known after apply)
+      + id                 = (known after apply)
+      + name               = "private-ip-address"
+      + network            = (known after apply)
+      + prefix_length      = 16
+      + project            = "mpl328-dev-bb46"
+      + purpose            = "VPC_PEERING"
+      + self_link          = (known after apply)
+      + terraform_labels   = (known after apply)
+    }
+
+  # google_compute_instance.db-management will be created
+  + resource "google_compute_instance" "db-management" {
+      + can_ip_forward       = false
+      + cpu_platform         = (known after apply)
+      + current_status       = (known after apply)
+      + deletion_protection  = false
+      + effective_labels     = (known after apply)
+      + guest_accelerator    = (known after apply)
+      + id                   = (known after apply)
+      + instance_id          = (known after apply)
+      + label_fingerprint    = (known after apply)
+      + machine_type         = "e2-micro"
+      + metadata             = (known after apply)
+      + metadata_fingerprint = (known after apply)
+      + min_cpu_platform     = (known after apply)
+      + name                 = "db-mgmt-vm"
+      + project              = "mpl328-dev-bb46"
+      + self_link            = (known after apply)
+      + tags_fingerprint     = (known after apply)
+      + terraform_labels     = (known after apply)
+      + zone                 = "us-central1-c"
+
+      + boot_disk {
+          + auto_delete                = true
+          + device_name                = (known after apply)
+          + disk_encryption_key_sha256 = (known after apply)
+          + kms_key_self_link          = (known after apply)
+          + mode                       = "READ_WRITE"
+          + source                     = (known after apply)
+
+          + initialize_params {
+              + image                  = "debian-cloud/debian-12"
+              + labels                 = (known after apply)
+              + provisioned_iops       = (known after apply)
+              + provisioned_throughput = (known after apply)
+              + size                   = (known after apply)
+              + type                   = (known after apply)
+            }
+        }
+
+      + confidential_instance_config {
+          + confidential_instance_type  = (known after apply)
+          + enable_confidential_compute = (known after apply)
+        }
+
+      + network_interface {
+          + internal_ipv6_prefix_length = (known after apply)
+          + ipv6_access_type            = (known after apply)
+          + ipv6_address                = (known after apply)
+          + name                        = (known after apply)
+          + network                     = (known after apply)
+          + network_ip                  = (known after apply)
+          + stack_type                  = (known after apply)
+          + subnetwork                  = "guacamole-host-subnet"
+          + subnetwork_project          = (known after apply)
+        }
+
+      + reservation_affinity {
+          + type = (known after apply)
+
+          + specific_reservation {
+              + key    = (known after apply)
+              + values = (known after apply)
+            }
+        }
+
+      + scheduling {
+          + automatic_restart           = (known after apply)
+          + instance_termination_action = (known after apply)
+          + min_node_cpus               = (known after apply)
+          + on_host_maintenance         = (known after apply)
+          + preemptible                 = (known after apply)
+          + provisioning_model          = (known after apply)
+
+          + local_ssd_recovery_timeout {
+              + nanos   = (known after apply)
+              + seconds = (known after apply)
+            }
+
+          + max_run_duration {
+              + nanos   = (known after apply)
+              + seconds = (known after apply)
+            }
+
+          + node_affinities {
+              + key      = (known after apply)
+              + operator = (known after apply)
+              + values   = (known after apply)
+            }
+
+          + on_instance_stop_action {
+              + discard_local_ssd = (known after apply)
+            }
+        }
+
+      + shielded_instance_config {
+          + enable_integrity_monitoring = true
+          + enable_secure_boot          = false
+          + enable_vtpm                 = true
+        }
+    }
+
+  # google_compute_network.vpc will be created
+  + resource "google_compute_network" "vpc" {
+      + auto_create_subnetworks                   = false
+      + delete_default_routes_on_create           = false
+      + gateway_ipv4                              = (known after apply)
+      + id                                        = (known after apply)
+      + internal_ipv6_range                       = (known after apply)
+      + mtu                                       = (known after apply)
+      + name                                      = "guacamole-vpc"
+      + network_firewall_policy_enforcement_order = "AFTER_CLASSIC_FIREWALL"
+      + numeric_id                                = (known after apply)
+      + project                                   = "mpl328-dev-bb46"
+      + routing_mode                              = (known after apply)
+      + self_link                                 = (known after apply)
+    }
+
+  # google_compute_router.router will be created
+  + resource "google_compute_router" "router" {
+      + creation_timestamp = (known after apply)
+      + id                 = (known after apply)
+      + name               = "guacamole-router"
+      + network            = (known after apply)
+      + project            = "mpl328-dev-bb46"
+      + region             = "us-central1"
+      + self_link          = (known after apply)
+    }
+
+  # google_compute_router_nat.nat will be created
+  + resource "google_compute_router_nat" "nat" {
+      + auto_network_tier                   = (known after apply)
+      + enable_dynamic_port_allocation      = (known after apply)
+      + enable_endpoint_independent_mapping = (known after apply)
+      + endpoint_types                      = (known after apply)
+      + icmp_idle_timeout_sec               = 30
+      + id                                  = (known after apply)
+      + min_ports_per_vm                    = (known after apply)
+      + name                                = "guacamole-router-nat"
+      + nat_ip_allocate_option              = "AUTO_ONLY"
+      + project                             = "mpl328-dev-bb46"
+      + region                              = "us-central1"
+      + router                              = "guacamole-router"
+      + source_subnetwork_ip_ranges_to_nat  = "ALL_SUBNETWORKS_ALL_IP_RANGES"
+      + tcp_established_idle_timeout_sec    = 1200
+      + tcp_time_wait_timeout_sec           = 120
+      + tcp_transitory_idle_timeout_sec     = 30
+      + udp_idle_timeout_sec                = 30
+    }
+
+  # google_compute_subnetwork.subnet will be created
+  + resource "google_compute_subnetwork" "subnet" {
+      + creation_timestamp         = (known after apply)
+      + external_ipv6_prefix       = (known after apply)
+      + fingerprint                = (known after apply)
+      + gateway_address            = (known after apply)
+      + id                         = (known after apply)
+      + internal_ipv6_prefix       = (known after apply)
+      + ip_cidr_range              = "10.10.0.0/24"
+      + ipv6_cidr_range            = (known after apply)
+      + name                       = "guacamole-host-subnet"
+      + network                    = "guacamole-vpc"
+      + private_ip_google_access   = (known after apply)
+      + private_ipv6_google_access = (known after apply)
+      + project                    = "mpl328-dev-bb46"
+      + purpose                    = (known after apply)
+      + region                     = "us-central1"
+      + secondary_ip_range         = (known after apply)
+      + self_link                  = (known after apply)
+      + stack_type                 = (known after apply)
+    }
+
+  # google_container_cluster.gke will be created
+  + resource "google_container_cluster" "gke" {
+      + cluster_ipv4_cidr                        = (known after apply)
+      + datapath_provider                        = (known after apply)
+      + default_max_pods_per_node                = (known after apply)
+      + deletion_protection                      = false
+      + enable_autopilot                         = true
+      + enable_cilium_clusterwide_network_policy = false
+      + enable_intranode_visibility              = true
+      + enable_kubernetes_alpha                  = false
+      + enable_l4_ilb_subsetting                 = false
+      + enable_legacy_abac                       = false
+      + enable_shielded_nodes                    = true
+      + endpoint                                 = (known after apply)
+      + id                                       = (known after apply)
+      + label_fingerprint                        = (known after apply)
+      + location                                 = "us-central1"
+      + logging_service                          = (known after apply)
+      + master_version                           = (known after apply)
+      + monitoring_service                       = (known after apply)
+      + name                                     = "guacamole-gke"
+      + network                                  = (known after apply)
+      + networking_mode                          = "VPC_NATIVE"
+      + node_locations                           = (known after apply)
+      + node_version                             = (known after apply)
+      + operation                                = (known after apply)
+      + private_ipv6_google_access               = (known after apply)
+      + project                                  = (known after apply)
+      + self_link                                = (known after apply)
+      + services_ipv4_cidr                       = (known after apply)
+      + subnetwork                               = "guacamole-host-subnet"
+      + tpu_ipv4_cidr_block                      = (known after apply)
+
+      + addons_config {
+          + cloudrun_config {
+              + disabled           = (known after apply)
+              + load_balancer_type = (known after apply)
+            }
+
+          + config_connector_config {
+              + enabled = (known after apply)
+            }
+
+          + dns_cache_config {
+              + enabled = (known after apply)
+            }
+
+          + gce_persistent_disk_csi_driver_config {
+              + enabled = (known after apply)
+            }
+
+          + gcp_filestore_csi_driver_config {
+              + enabled = (known after apply)
+            }
+
+          + gcs_fuse_csi_driver_config {
+              + enabled = (known after apply)
+            }
+
+          + gke_backup_agent_config {
+              + enabled = (known after apply)
+            }
+
+          + horizontal_pod_autoscaling {
+              + disabled = (known after apply)
+            }
+
+          + http_load_balancing {
+              + disabled = (known after apply)
+            }
+
+          + network_policy_config {
+              + disabled = (known after apply)
+            }
+
+          + stateful_ha_config {
+              + enabled = (known after apply)
+            }
+        }
+
+      + authenticator_groups_config {
+          + security_group = (known after apply)
+        }
+
+      + cluster_autoscaling {
+          + autoscaling_profile = (known after apply)
+          + enabled             = (known after apply)
+
+          + auto_provisioning_defaults {
+              + boot_disk_kms_key = (known after apply)
+              + disk_size         = (known after apply)
+              + disk_type         = (known after apply)
+              + image_type        = (known after apply)
+              + min_cpu_platform  = (known after apply)
+              + oauth_scopes      = (known after apply)
+              + service_account   = (known after apply)
+
+              + management {
+                  + auto_repair     = (known after apply)
+                  + auto_upgrade    = (known after apply)
+                  + upgrade_options = (known after apply)
+                }
+
+              + shielded_instance_config {
+                  + enable_integrity_monitoring = (known after apply)
+                  + enable_secure_boot          = (known after apply)
+                }
+
+              + upgrade_settings {
+                  + max_surge       = (known after apply)
+                  + max_unavailable = (known after apply)
+                  + strategy        = (known after apply)
+
+                  + blue_green_settings {
+                      + node_pool_soak_duration = (known after apply)
+
+                      + standard_rollout_policy {
+                          + batch_node_count    = (known after apply)
+                          + batch_percentage    = (known after apply)
+                          + batch_soak_duration = (known after apply)
+                        }
+                    }
+                }
+            }
+
+          + resource_limits {
+              + maximum       = (known after apply)
+              + minimum       = (known after apply)
+              + resource_type = (known after apply)
+            }
+        }
+
+      + confidential_nodes {
+          + enabled = (known after apply)
+        }
+
+      + cost_management_config {
+          + enabled = (known after apply)
+        }
+
+      + database_encryption {
+          + key_name = (known after apply)
+          + state    = (known after apply)
+        }
+
+      + default_snat_status {
+          + disabled = (known after apply)
+        }
+
+      + gateway_api_config {
+          + channel = (known after apply)
+        }
+
+      + identity_service_config {
+          + enabled = (known after apply)
+        }
+
+      + ip_allocation_policy {
+          + cluster_ipv4_cidr_block       = (known after apply)
+          + cluster_secondary_range_name  = (known after apply)
+          + services_ipv4_cidr_block      = (known after apply)
+          + services_secondary_range_name = (known after apply)
+          + stack_type                    = "IPV4"
+
+          + pod_cidr_overprovision_config {
+              + disabled = (known after apply)
+            }
+        }
+
+      + logging_config {
+          + enable_components = (known after apply)
+        }
+
+      + master_auth {
+          + client_certificate     = (known after apply)
+          + client_key             = (sensitive value)
+          + cluster_ca_certificate = (known after apply)
+
+          + client_certificate_config {
+              + issue_client_certificate = (known after apply)
+            }
+        }
+
+      + master_authorized_networks_config {
+          + gcp_public_cidrs_access_enabled = (known after apply)
+
+          + cidr_blocks {
+              + cidr_block   = (known after apply)
+              + display_name = (known after apply)
+            }
+        }
+
+      + mesh_certificates {
+          + enable_certificates = (known after apply)
+        }
+
+      + monitoring_config {
+          + enable_components = (known after apply)
+
+          + advanced_datapath_observability_config {
+              + enable_metrics = (known after apply)
+              + enable_relay   = (known after apply)
+              + relay_mode     = (known after apply)
+            }
+
+          + managed_prometheus {
+              + enabled = (known after apply)
+            }
+        }
+
+      + node_config {
+          + boot_disk_kms_key           = (known after apply)
+          + disk_size_gb                = (known after apply)
+          + disk_type                   = (known after apply)
+          + effective_taints            = (known after apply)
+          + enable_confidential_storage = (known after apply)
+          + guest_accelerator           = (known after apply)
+          + image_type                  = (known after apply)
+          + labels                      = (known after apply)
+          + local_ssd_count             = (known after apply)
+          + logging_variant             = (known after apply)
+          + machine_type                = (known after apply)
+          + metadata                    = (known after apply)
+          + min_cpu_platform            = (known after apply)
+          + node_group                  = (known after apply)
+          + oauth_scopes                = (known after apply)
+          + preemptible                 = (known after apply)
+          + resource_labels             = (known after apply)
+          + resource_manager_tags       = (known after apply)
+          + service_account             = (known after apply)
+          + spot                        = (known after apply)
+          + tags                        = (known after apply)
+
+          + advanced_machine_features {
+              + enable_nested_virtualization = (known after apply)
+              + threads_per_core             = (known after apply)
+            }
+
+          + confidential_nodes {
+              + enabled = (known after apply)
+            }
+
+          + containerd_config {
+              + private_registry_access_config {
+                  + enabled = (known after apply)
+
+                  + certificate_authority_domain_config {
+                      + fqdns = (known after apply)
+
+                      + gcp_secret_manager_certificate_config {
+                          + secret_uri = (known after apply)
+                        }
+                    }
+                }
+            }
+
+          + ephemeral_storage_local_ssd_config {
+              + local_ssd_count = (known after apply)
+            }
+
+          + fast_socket {
+              + enabled = (known after apply)
+            }
+
+          + gcfs_config {
+              + enabled = (known after apply)
+            }
+
+          + gvnic {
+              + enabled = (known after apply)
+            }
+
+          + host_maintenance_policy {
+              + maintenance_interval = (known after apply)
+            }
+
+          + kubelet_config {
+              + cpu_cfs_quota        = (known after apply)
+              + cpu_cfs_quota_period = (known after apply)
+              + cpu_manager_policy   = (known after apply)
+              + pod_pids_limit       = (known after apply)
+            }
+
+          + linux_node_config {
+              + cgroup_mode = (known after apply)
+              + sysctls     = (known after apply)
+            }
+
+          + local_nvme_ssd_block_config {
+              + local_ssd_count = (known after apply)
+            }
+
+          + reservation_affinity {
+              + consume_reservation_type = (known after apply)
+              + key                      = (known after apply)
+              + values                   = (known after apply)
+            }
+
+          + secondary_boot_disks {
+              + disk_image = (known after apply)
+              + mode       = (known after apply)
+            }
+
+          + shielded_instance_config {
+              + enable_integrity_monitoring = (known after apply)
+              + enable_secure_boot          = (known after apply)
+            }
+
+          + sole_tenant_config {
+              + node_affinity {
+                  + key      = (known after apply)
+                  + operator = (known after apply)
+                  + values   = (known after apply)
+                }
+            }
+
+          + taint {
+              + effect = (known after apply)
+              + key    = (known after apply)
+              + value  = (known after apply)
+            }
+
+          + workload_metadata_config {
+              + mode = (known after apply)
+            }
+        }
+
+      + node_pool {
+          + initial_node_count          = (known after apply)
+          + instance_group_urls         = (known after apply)
+          + managed_instance_group_urls = (known after apply)
+          + max_pods_per_node           = (known after apply)
+          + name                        = (known after apply)
+          + name_prefix                 = (known after apply)
+          + node_count                  = (known after apply)
+          + node_locations              = (known after apply)
+          + version                     = (known after apply)
+
+          + autoscaling {
+              + location_policy      = (known after apply)
+              + max_node_count       = (known after apply)
+              + min_node_count       = (known after apply)
+              + total_max_node_count = (known after apply)
+              + total_min_node_count = (known after apply)
+            }
+
+          + management {
+              + auto_repair  = (known after apply)
+              + auto_upgrade = (known after apply)
+            }
+
+          + network_config {
+              + create_pod_range     = (known after apply)
+              + enable_private_nodes = (known after apply)
+              + pod_ipv4_cidr_block  = (known after apply)
+              + pod_range            = (known after apply)
+
+              + network_performance_config {
+                  + total_egress_bandwidth_tier = (known after apply)
+                }
+
+              + pod_cidr_overprovision_config {
+                  + disabled = (known after apply)
+                }
+            }
+
+          + node_config {
+              + boot_disk_kms_key           = (known after apply)
+              + disk_size_gb                = (known after apply)
+              + disk_type                   = (known after apply)
+              + effective_taints            = (known after apply)
+              + enable_confidential_storage = (known after apply)
+              + guest_accelerator           = (known after apply)
+              + image_type                  = (known after apply)
+              + labels                      = (known after apply)
+              + local_ssd_count             = (known after apply)
+              + logging_variant             = (known after apply)
+              + machine_type                = (known after apply)
+              + metadata                    = (known after apply)
+              + min_cpu_platform            = (known after apply)
+              + node_group                  = (known after apply)
+              + oauth_scopes                = (known after apply)
+              + preemptible                 = (known after apply)
+              + resource_labels             = (known after apply)
+              + resource_manager_tags       = (known after apply)
+              + service_account             = (known after apply)
+              + spot                        = (known after apply)
+              + tags                        = (known after apply)
+
+              + advanced_machine_features {
+                  + enable_nested_virtualization = (known after apply)
+                  + threads_per_core             = (known after apply)
+                }
+
+              + confidential_nodes {
+                  + enabled = (known after apply)
+                }
+
+              + containerd_config {
+                  + private_registry_access_config {
+                      + enabled = (known after apply)
+
+                      + certificate_authority_domain_config {
+                          + fqdns = (known after apply)
+
+                          + gcp_secret_manager_certificate_config {
+                              + secret_uri = (known after apply)
+                            }
+                        }
+                    }
+                }
+
+              + ephemeral_storage_local_ssd_config {
+                  + local_ssd_count = (known after apply)
+                }
+
+              + fast_socket {
+                  + enabled = (known after apply)
+                }
+
+              + gcfs_config {
+                  + enabled = (known after apply)
+                }
+
+              + gvnic {
+                  + enabled = (known after apply)
+                }
+
+              + host_maintenance_policy {
+                  + maintenance_interval = (known after apply)
+                }
+
+              + kubelet_config {
+                  + cpu_cfs_quota        = (known after apply)
+                  + cpu_cfs_quota_period = (known after apply)
+                  + cpu_manager_policy   = (known after apply)
+                  + pod_pids_limit       = (known after apply)
+                }
+
+              + linux_node_config {
+                  + cgroup_mode = (known after apply)
+                  + sysctls     = (known after apply)
+                }
+
+              + local_nvme_ssd_block_config {
+                  + local_ssd_count = (known after apply)
+                }
+
+              + reservation_affinity {
+                  + consume_reservation_type = (known after apply)
+                  + key                      = (known after apply)
+                  + values                   = (known after apply)
+                }
+
+              + secondary_boot_disks {
+                  + disk_image = (known after apply)
+                  + mode       = (known after apply)
+                }
+
+              + shielded_instance_config {
+                  + enable_integrity_monitoring = (known after apply)
+                  + enable_secure_boot          = (known after apply)
+                }
+
+              + sole_tenant_config {
+                  + node_affinity {
+                      + key      = (known after apply)
+                      + operator = (known after apply)
+                      + values   = (known after apply)
+                    }
+                }
+
+              + taint {
+                  + effect = (known after apply)
+                  + key    = (known after apply)
+                  + value  = (known after apply)
+                }
+
+              + workload_metadata_config {
+                  + mode = (known after apply)
+                }
+            }
+
+          + placement_policy {
+              + policy_name  = (known after apply)
+              + tpu_topology = (known after apply)
+              + type         = (known after apply)
+            }
+
+          + queued_provisioning {
+              + enabled = (known after apply)
+            }
+
+          + upgrade_settings {
+              + max_surge       = (known after apply)
+              + max_unavailable = (known after apply)
+              + strategy        = (known after apply)
+
+              + blue_green_settings {
+                  + node_pool_soak_duration = (known after apply)
+
+                  + standard_rollout_policy {
+                      + batch_node_count    = (known after apply)
+                      + batch_percentage    = (known after apply)
+                      + batch_soak_duration = (known after apply)
+                    }
+                }
+            }
+        }
+
+      + node_pool_auto_config {
+          + resource_manager_tags = (known after apply)
+
+          + network_tags {
+              + tags = (known after apply)
+            }
+        }
+
+      + node_pool_defaults {
+          + node_config_defaults {
+              + logging_variant = (known after apply)
+
+              + containerd_config {
+                  + private_registry_access_config {
+                      + enabled = (known after apply)
+
+                      + certificate_authority_domain_config {
+                          + fqdns = (known after apply)
+
+                          + gcp_secret_manager_certificate_config {
+                              + secret_uri = (known after apply)
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+      + notification_config {
+          + pubsub {
+              + enabled = (known after apply)
+              + topic   = (known after apply)
+
+              + filter {
+                  + event_type = (known after apply)
+                }
+            }
+        }
+
+      + private_cluster_config {
+          + enable_private_nodes   = true
+          + master_ipv4_cidr_block = "172.16.0.32/28"
+          + peering_name           = (known after apply)
+          + private_endpoint       = (known after apply)
+          + public_endpoint        = (known after apply)
+
+          + master_global_access_config {
+              + enabled = (known after apply)
+            }
+        }
+
+      + release_channel {
+          + channel = (known after apply)
+        }
+
+      + security_posture_config {
+          + mode               = (known after apply)
+          + vulnerability_mode = (known after apply)
+        }
+
+      + service_external_ips_config {
+          + enabled = (known after apply)
+        }
+
+      + vertical_pod_autoscaling {
+          + enabled = (known after apply)
+        }
+
+      + workload_identity_config {
+          + workload_pool = (known after apply)
+        }
+    }
+
+  # google_iap_client.project_client will be created
+  + resource "google_iap_client" "project_client" {
+      + brand        = "projects/167610392635/brands/167610392635"
+      + client_id    = (known after apply)
+      + display_name = "Guacamole IAP Client"
+      + id           = (known after apply)
+      + secret       = (sensitive value)
+    }
+
+  # google_project_iam_custom_role.iap-jwt-verify-role will be created
+  + resource "google_project_iam_custom_role" "iap-jwt-verify-role" {
+      + deleted     = (known after apply)
+      + description = "Retrieve metadata related to IAP JWT Verification"
+      + id          = (known after apply)
+      + name        = (known after apply)
+      + permissions = [
+          + "compute.backendServices.get",
+        ]
+      + project     = "mpl328-dev-bb46"
+      + role_id     = "iap_jwt_verifier"
+      + stage       = "GA"
+      + title       = "IAP JWT Verifier"
+    }
+
+  # google_project_iam_member.iap-tcp-user will be created
+  + resource "google_project_iam_member" "iap-tcp-user" {
+      + etag    = (known after apply)
+      + id      = (known after apply)
+      + member  = "user:mpl328@nyu.edu"
+      + project = "mpl328-dev-bb46"
+      + role    = "roles/iap.tunnelResourceAccessor"
+    }
+
+  # google_project_iam_member.iap-web-user will be created
+  + resource "google_project_iam_member" "iap-web-user" {
+      + etag    = (known after apply)
+      + id      = (known after apply)
+      + member  = "user:mpl328@nyu.edu"
+      + project = "mpl328-dev-bb46"
+      + role    = "roles/iap.httpsResourceAccessor"
+    }
+
+  # google_project_iam_member.svc-gke-node-iam["roles/logging.logWriter"] will be created
+  + resource "google_project_iam_member" "svc-gke-node-iam" {
+      + etag    = (known after apply)
+      + id      = (known after apply)
+      + member  = (known after apply)
+      + project = "mpl328-dev-bb46"
+      + role    = "roles/logging.logWriter"
+    }
+
+  # google_project_iam_member.svc-gke-node-iam["roles/monitoring.metricWriter"] will be created
+  + resource "google_project_iam_member" "svc-gke-node-iam" {
+      + etag    = (known after apply)
+      + id      = (known after apply)
+      + member  = (known after apply)
+      + project = "mpl328-dev-bb46"
+      + role    = "roles/monitoring.metricWriter"
+    }
+
+  # google_project_iam_member.svc-gke-node-iam["roles/monitoring.viewer"] will be created
+  + resource "google_project_iam_member" "svc-gke-node-iam" {
+      + etag    = (known after apply)
+      + id      = (known after apply)
+      + member  = (known after apply)
+      + project = "mpl328-dev-bb46"
+      + role    = "roles/monitoring.viewer"
+    }
+
+  # google_project_iam_member.svc-gke-node-iam["roles/stackdriver.resourceMetadata.writer"] will be created
+  + resource "google_project_iam_member" "svc-gke-node-iam" {
+      + etag    = (known after apply)
+      + id      = (known after apply)
+      + member  = (known after apply)
+      + project = "mpl328-dev-bb46"
+      + role    = "roles/stackdriver.resourceMetadata.writer"
+    }
+
+  # google_service_account.svc-gke-node will be created
+  + resource "google_service_account" "svc-gke-node" {
+      + account_id  = "svc-gke-node"
+      + description = "GKE Node Service Account"
+      + disabled    = false
+      + email       = (known after apply)
+      + id          = (known after apply)
+      + member      = (known after apply)
+      + name        = (known after apply)
+      + project     = "mpl328-dev-bb46"
+      + unique_id   = (known after apply)
+    }
+
+  # google_service_networking_connection.private_vpc_connection will be created
+  + resource "google_service_networking_connection" "private_vpc_connection" {
+      + id                      = (known after apply)
+      + network                 = (known after apply)
+      + peering                 = (known after apply)
+      + reserved_peering_ranges = [
+          + "private-ip-address",
+        ]
+      + service                 = "servicenetworking.googleapis.com"
+    }
+
+  # google_sql_database_instance.guacamole-mysql will be created
+  + resource "google_sql_database_instance" "guacamole-mysql" {
+      + available_maintenance_versions = (known after apply)
+      + connection_name                = (known after apply)
+      + database_version               = "MYSQL_5_7"
+      + deletion_protection            = false
+      + dns_name                       = (known after apply)
+      + encryption_key_name            = (known after apply)
+      + first_ip_address               = (known after apply)
+      + id                             = (known after apply)
+      + instance_type                  = (known after apply)
+      + ip_address                     = (known after apply)
+      + maintenance_version            = (known after apply)
+      + master_instance_name           = (known after apply)
+      + name                           = (known after apply)
+      + private_ip_address             = (known after apply)
+      + project                        = "mpl328-dev-bb46"
+      + psc_service_attachment_link    = (known after apply)
+      + public_ip_address              = (known after apply)
+      + region                         = "us-central1"
+      + self_link                      = (known after apply)
+      + server_ca_cert                 = (sensitive value)
+      + service_account_email_address  = (known after apply)
+
+      + replica_configuration {
+          + ca_certificate            = (known after apply)
+          + client_certificate        = (known after apply)
+          + client_key                = (known after apply)
+          + connect_retry_interval    = (known after apply)
+          + dump_file_path            = (known after apply)
+          + failover_target           = (known after apply)
+          + master_heartbeat_period   = (known after apply)
+          + password                  = (sensitive value)
+          + ssl_cipher                = (known after apply)
+          + username                  = (known after apply)
+          + verify_server_certificate = (known after apply)
+        }
+
+      + settings {
+          + activation_policy     = "ALWAYS"
+          + availability_type     = "ZONAL"
+          + connector_enforcement = (known after apply)
+          + disk_autoresize       = true
+          + disk_autoresize_limit = 0
+          + disk_size             = (known after apply)
+          + disk_type             = "PD_SSD"
+          + edition               = "ENTERPRISE"
+          + pricing_plan          = "PER_USE"
+          + tier                  = "db-f1-micro"
+          + user_labels           = (known after apply)
+          + version               = (known after apply)
+
+          + backup_configuration {
+              + binary_log_enabled             = (known after apply)
+              + enabled                        = (known after apply)
+              + location                       = (known after apply)
+              + point_in_time_recovery_enabled = (known after apply)
+              + start_time                     = (known after apply)
+              + transaction_log_retention_days = (known after apply)
+
+              + backup_retention_settings {
+                  + retained_backups = (known after apply)
+                  + retention_unit   = (known after apply)
+                }
+            }
+
+          + ip_configuration {
+              + ipv4_enabled    = false
+              + private_network = (known after apply)
+              + ssl_mode        = (known after apply)
+            }
+
+          + location_preference {
+              + follow_gae_application = (known after apply)
+              + secondary_zone         = (known after apply)
+              + zone                   = (known after apply)
+            }
+        }
+    }
+
+  # google_sql_ssl_cert.db-client-cert will be created
+  + resource "google_sql_ssl_cert" "db-client-cert" {
+      + cert               = (sensitive value)
+      + cert_serial_number = (known after apply)
+      + common_name        = (known after apply)
+      + create_time        = (known after apply)
+      + expiration_time    = (known after apply)
+      + id                 = (known after apply)
+      + instance           = (known after apply)
+      + private_key        = (sensitive value)
+      + project            = "mpl328-dev-bb46"
+      + server_ca_cert     = (sensitive value)
+      + sha1_fingerprint   = (known after apply)
+    }
+
+  # google_sql_user.guac-db-root will be created
+  + resource "google_sql_user" "guac-db-root" {
+      + host                    = "%"
+      + id                      = (known after apply)
+      + instance                = (known after apply)
+      + name                    = "root"
+      + password                = (sensitive value)
+      + project                 = "mpl328-dev-bb46"
+      + sql_server_user_details = (known after apply)
+    }
+
+  # google_sql_user.guac-db-user will be created
+  + resource "google_sql_user" "guac-db-user" {
+      + host                    = "%"
+      + id                      = (known after apply)
+      + instance                = (known after apply)
+      + name                    = "guac-db-user"
+      + password                = (sensitive value)
+      + project                 = "mpl328-dev-bb46"
+      + sql_server_user_details = (known after apply)
+    }
+
+  # local_file.client-settings-properties will be created
+  + resource "local_file" "client-settings-properties" {
+      + content              = (sensitive)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "./../client/client-settings.properties"
+      + id                   = (known after apply)
+    }
+
+  # local_file.db-secrets-properties will be created
+  + resource "local_file" "db-secrets-properties" {
+      + content              = (sensitive)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "./../client/db-secrets.properties"
+      + id                   = (known after apply)
+    }
+
+  # local_file.guacamole-client-managedcert will be created
+  + resource "local_file" "guacamole-client-managedcert" {
+      + content              = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "./../client/kubernetes-manifests/guacamole-client.managedcert.yaml"
+      + id                   = (known after apply)
+    }
+
+  # local_file.guacamole-properties will be created
+  + resource "local_file" "guacamole-properties" {
+      + content              = <<-EOT
+            google-project-id=mpl328-dev-bb46
+            google-project-number=167610392635
+            google-client-service-name=guacamole-client-service
+            google-client-service-port=80
+            google-client-service-namespace=guacamole
+        EOT
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "./../client/guacamole.properties"
+      + id                   = (known after apply)
+    }
+
+  # local_file.iap-secrets will be created
+  + resource "local_file" "iap-secrets" {
+      + content              = (sensitive)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "./../client/iap-secrets.properties"
+      + id                   = (known after apply)
+    }
+
+  # local_file.insert-admin-user will be created
+  + resource "local_file" "insert-admin-user" {
+      + content              = <<-EOT
+            /**
+             * Copyright 2020 Google LLC
+             *
+             * Licensed under the Apache License, Version 2.0 (the "License");
+             * you may not use this file except in compliance with the License.
+             * You may obtain a copy of the License at
+             *
+             *      https://www.apache.org/licenses/LICENSE-2.0
+             *
+             * Unless required by applicable law or agreed to in writing, software
+             * distributed under the License is distributed on an "AS IS" BASIS,
+             * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+             * See the License for the specific language governing permissions and
+             * limitations under the License.
+             */
+            
+            -- Create an Administrative Guacamole User and reset the guacadmin password
+            -- Modify the SET @username line below to reflect your Google identity
+            
+            -- Admin user email identity
+            SET @username = 'mpl328@nyu.edu';
+            
+            -- Generate salt
+            SET @salt = UNHEX(SHA2(UUID(), 256));
+            
+            -- Generate random password
+            SET @password = UNHEX(SHA2(UUID(), 256));
+            
+            START TRANSACTION;
+            
+            -- Create user and hash password with salt
+            INSERT INTO guacamole_entity (name, type)
+                VALUES (@username, 'USER');
+            
+            SET @entity=(SELECT entity_id FROM guacamole_entity WHERE name=@username LIMIT 1);
+            
+            INSERT INTO guacamole_user (entity_id, password_salt, password_hash, password_date)
+                 VALUES (@entity, @salt, UNHEX(SHA2(CONCAT(HEX(@password), HEX(@salt)), 256)), CURRENT_DATE());
+            
+            -- Grant ADMINISTER rights to @username
+            INSERT INTO guacamole_system_permission(entity_id, permission)
+                VALUES (@entity, 'ADMINISTER');
+            
+            COMMIT;
+        EOT
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "./../insert-admin-user.sql"
+      + id                   = (known after apply)
+    }
+
+  # local_file.tomcat-server-xml will be created
+  + resource "local_file" "tomcat-server-xml" {
+      + content              = (known after apply)
+      + directory_permission = "0777"
+      + file_permission      = "0777"
+      + filename             = "./../client/tomcat/conf/server.xml"
+      + id                   = (known after apply)
+    }
+
+  # random_id.suffix will be created
+  + resource "random_id" "suffix" {
+      + b64_std     = (known after apply)
+      + b64_url     = (known after apply)
+      + byte_length = 5
+      + dec         = (known after apply)
+      + hex         = (known after apply)
+      + id          = (known after apply)
+    }
+
+  # random_password.db_password will be created
+  + resource "random_password" "db_password" {
+      + id          = (known after apply)
+      + length      = 16
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + result      = (sensitive value)
+      + special     = false
+      + upper       = true
+    }
+
+  # random_password.db_root_password will be created
+  + resource "random_password" "db_root_password" {
+      + id          = (known after apply)
+      + length      = 16
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + result      = (sensitive value)
+      + special     = false
+      + upper       = true
+    }
+
+  # random_password.keystore_password will be created
+  + resource "random_password" "keystore_password" {
+      + id          = (known after apply)
+      + length      = 16
+      + lower       = true
+      + min_lower   = 0
+      + min_numeric = 0
+      + min_special = 0
+      + min_upper   = 0
+      + number      = true
+      + result      = (sensitive value)
+      + special     = false
+      + upper       = true
+    }
+
+  # module.project-services.google_project_service.project_services["artifactregistry.googleapis.com"] will be created
+  + resource "google_project_service" "project_services" {
+      + disable_dependent_services = false
+      + disable_on_destroy         = false
+      + id                         = (known after apply)
+      + project                    = "mpl328-dev-bb46"
+      + service                    = "artifactregistry.googleapis.com"
+    }
+
+  # module.project-services.google_project_service.project_services["cloudbuild.googleapis.com"] will be created
+  + resource "google_project_service" "project_services" {
+      + disable_dependent_services = false
+      + disable_on_destroy         = false
+      + id                         = (known after apply)
+      + project                    = "mpl328-dev-bb46"
+      + service                    = "cloudbuild.googleapis.com"
+    }
+
+  # module.project-services.google_project_service.project_services["cloudresourcemanager.googleapis.com"] will be created
+  + resource "google_project_service" "project_services" {
+      + disable_dependent_services = false
+      + disable_on_destroy         = false
+      + id                         = (known after apply)
+      + project                    = "mpl328-dev-bb46"
+      + service                    = "cloudresourcemanager.googleapis.com"
+    }
+
+  # module.project-services.google_project_service.project_services["compute.googleapis.com"] will be created
+  + resource "google_project_service" "project_services" {
+      + disable_dependent_services = false
+      + disable_on_destroy         = false
+      + id                         = (known after apply)
+      + project                    = "mpl328-dev-bb46"
+      + service                    = "compute.googleapis.com"
+    }
+
+  # module.project-services.google_project_service.project_services["container.googleapis.com"] will be created
+  + resource "google_project_service" "project_services" {
+      + disable_dependent_services = false
+      + disable_on_destroy         = false
+      + id                         = (known after apply)
+      + project                    = "mpl328-dev-bb46"
+      + service                    = "container.googleapis.com"
+    }
+
+  # module.project-services.google_project_service.project_services["iap.googleapis.com"] will be created
+  + resource "google_project_service" "project_services" {
+      + disable_dependent_services = false
+      + disable_on_destroy         = false
+      + id                         = (known after apply)
+      + project                    = "mpl328-dev-bb46"
+      + service                    = "iap.googleapis.com"
+    }
+
+  # module.project-services.google_project_service.project_services["servicenetworking.googleapis.com"] will be created
+  + resource "google_project_service" "project_services" {
+      + disable_dependent_services = false
+      + disable_on_destroy         = false
+      + id                         = (known after apply)
+      + project                    = "mpl328-dev-bb46"
+      + service                    = "servicenetworking.googleapis.com"
+    }
+
+  # module.project-services.google_project_service.project_services["serviceusage.googleapis.com"] will be created
+  + resource "google_project_service" "project_services" {
+      + disable_dependent_services = false
+      + disable_on_destroy         = false
+      + id                         = (known after apply)
+      + project                    = "mpl328-dev-bb46"
+      + service                    = "serviceusage.googleapis.com"
+    }
+
+  # module.project-services.google_project_service.project_services["sqladmin.googleapis.com"] will be created
+  + resource "google_project_service" "project_services" {
+      + disable_dependent_services = false
+      + disable_on_destroy         = false
+      + id                         = (known after apply)
+      + project                    = "mpl328-dev-bb46"
+      + service                    = "sqladmin.googleapis.com"
+    }
+
+  # module.project-services.google_project_service.project_services["stackdriver.googleapis.com"] will be created
+  + resource "google_project_service" "project_services" {
+      + disable_dependent_services = false
+      + disable_on_destroy         = false
+      + id                         = (known after apply)
+      + project                    = "mpl328-dev-bb46"
+      + service                    = "stackdriver.googleapis.com"
+    }
+
+Plan: 47 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + cloud_region                  = "us-central1"
+  + cloud_zone                    = "us-central1-c"
+  + db_address                    = (known after apply)
+  + db_mgmt_vm                    = "db-mgmt-vm"
+  + db_password                   = (sensitive value)
+  + db_root_password              = (sensitive value)
+  + db_username                   = "guac-db-user"
+  + external_url                  = (known after apply)
+  + gke_cluster_name              = "guacamole-gke"
+  + oauth_authorized_redirect_url = (known after apply)
+  + project_id                    = "mpl328-dev-bb46"
+  + subnet                        = "guacamole-host-subnet"
+
+─────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so Terraform can't
+guarantee to take exactly these actions if you run "terraform apply" now.

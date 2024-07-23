@@ -59,12 +59,12 @@ resource "google_compute_instance" "db-management" {
   }
 
   shielded_instance_config {
-    enable_secure_boot = true
+    enable_secure_boot = false
   }
 
   boot_disk {
     initialize_params {
-      image = "debian-cloud/debian-10"
+      image = "debian-cloud/debian-12"
     }
   }
 
@@ -97,8 +97,16 @@ resource "google_compute_firewall" "permit-guac-to-vm-traffic" {
   source_ranges = [google_container_cluster.gke.cluster_ipv4_cidr]
 }
 
-resource "google_compute_global_address" "guacamole-external" {
-  description  = "External IP Address Reservation for the Load Balancer"
-  name         = "guacamole-external"
-  address_type = "EXTERNAL"
+# resource "google_compute_global_address" "guacamole-external" {
+#   description  = "External IP Address Reservation for the Load Balancer"
+#   name         = "guacamole-external"
+#   address_type = "EXTERNAL"
+# }
+
+resource "google_compute_address" "guacamole-internal" {
+  description  = "Internal IP Address Reservation for the Load Balancer"
+  name         = "guacamole-internal"
+  address_type = "INTERNAL"
+  purpose      = "GCE_ENDPOINT"
+  subnetwork   = google_compute_subnetwork.subnet.id
 }

@@ -79,18 +79,22 @@ module "project-services" {
   project_id = var.project_id
 
   activate_apis = toset(var.required_apis)
+
+  disable_dependent_services = false
+  disable_services_on_destroy = false
 }
 
-resource "google_iap_brand" "project_brand" {
-  depends_on        = [module.project-services]
-  support_email     = data.google_client_openid_userinfo.me.email
-  application_title = "Guacamole on GKE Tutorial"
-  project           = var.project_id
-}
+# resource "google_iap_brand" "project_brand" {
+#   depends_on        = [module.project-services]
+#   support_email     = data.google_client_openid_userinfo.me.email
+#   application_title = "Guacamole on GKE Tutorial"
+#   project           = var.project_id
+# }
 
 resource "google_iap_client" "project_client" {
   display_name = "Guacamole IAP Client"
-  brand        = google_iap_brand.project_brand.name
+  # brand        = google_iap_brand.project_brand.name
+  brand        = "projects/167610392635/brands/167610392635"
 }
 
 #resource "google_container_registry" "registry" {
@@ -115,7 +119,7 @@ data "external" "wildcard-dns-url" {
   program = ["./bin/sslip-io-url.sh"]
 
   query = {
-    externalip = google_compute_global_address.guacamole-external.address
+    externalip = google_compute_address.guacamole-internal.address
   }
 }
 

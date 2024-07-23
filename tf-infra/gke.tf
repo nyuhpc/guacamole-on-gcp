@@ -24,11 +24,20 @@ resource "google_container_cluster" "gke" {
   private_cluster_config {
     enable_private_nodes    = true
     enable_private_endpoint = false
+    # enable_private_endpoint = true
     master_ipv4_cidr_block  = var.nwr_master_node
   }
 
+  # master_authorized_networks_config {
+  #   gcp_public_cidrs_access_enabled = false
+  #   cidr_blocks {
+  #     cidr_block = "216.165.95.0/24"
+  #   }
+  # }
+
   enable_autopilot = true
 
+  deletion_protection = false 
   #Updated to TF Provider 5.6, no longer need to explicityly define the below block, as it's the default now
   #When using TF provider <4.80, need to explicitly define CLOUD_DNS as cluster_dns per b/295958728
   #dns_config {

@@ -39,6 +39,8 @@ resource "google_sql_database_instance" "guacamole-mysql" {
       private_network = google_compute_network.vpc.id
     }
   }
+
+  deletion_protection=false 
 }
 
 resource "google_sql_user" "guac-db-user" {

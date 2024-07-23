@@ -55,7 +55,7 @@ resource "local_file" "client-settings-properties" {
 
 resource "local_file" "tomcat-server-xml" {
   content = templatefile("${path.module}/templates/server.xml.tmpl", {
-    external_ip = replace(google_compute_global_address.guacamole-external.address, ".", "\\.")
+    external_ip = replace(google_compute_address.guacamole-internal.address, ".", "\\.")
   })
 
   filename = "${path.module}/../client/tomcat/conf/server.xml"
