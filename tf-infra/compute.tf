@@ -27,7 +27,7 @@ resource "google_compute_subnetwork" "subnet" {
 }
 
 
-resource "google_compute_subnetwork" "network-for-lb" {
+resource "google_compute_subnetwork" "subnet-for-lb" {
   name          = "lb-test-subnetwork"
   ip_cidr_range = "10.11.0.0/24"
   region        = var.region
@@ -90,7 +90,7 @@ resource "google_compute_firewall" "vpc-firewall" {
 
   allow {
     protocol = "tcp"
-    ports    = ["22"]
+    ports    = ["22", "3389"]
   }
 
   source_ranges = ["35.235.240.0/20"]
@@ -131,5 +131,5 @@ resource "google_compute_address" "guacamole-internal" {
   name         = "guacamole-internal"
   address_type = "INTERNAL"
   purpose      = "GCE_ENDPOINT"
-  subnetwork   = google_compute_subnetwork.subnet.id
+  subnetwork   = google_compute_subnetwork.subnet-for-lb.id
 }
