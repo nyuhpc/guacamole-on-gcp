@@ -131,5 +131,5 @@ resource "google_compute_address" "guacamole-internal" {
   name         = "guacamole-internal"
   address_type = "INTERNAL"
   purpose      = "GCE_ENDPOINT"
-  subnetwork   = google_compute_subnetwork.subnet-for-lb.id
+  subnetwork   = google_compute_subnetwork.subnet.id
 }
