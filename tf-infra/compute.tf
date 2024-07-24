@@ -26,6 +26,17 @@ resource "google_compute_subnetwork" "subnet" {
   ip_cidr_range = "10.10.0.0/24"
 }
 
+
+resource "google_compute_subnetwork" "network-for-lb" {
+  name          = "lb-test-subnetwork"
+  ip_cidr_range = "10.11.0.0/24"
+  region        = var.region
+  purpose       = "REGIONAL_MANAGED_PROXY"
+  role          = "ACTIVE"
+  network       = google_compute_network.vpc.name
+}
+
+
 resource "google_compute_router" "router" {
   name    = "guacamole-router"
   region  = google_compute_subnetwork.subnet.region
@@ -95,6 +106,18 @@ resource "google_compute_firewall" "permit-guac-to-vm-traffic" {
   }
 
   source_ranges = [google_container_cluster.gke.cluster_ipv4_cidr]
+}
+
+resource "google_compute_firewall" "ilb-firewall" {
+  name    = "allow-proxy-connection"
+  network = google_compute_network.vpc.name
+
+  allow {
+    protocol = "tcp"
+    ports    = ["80", "8080"]
+  }
+
+  source_ranges = ["10.11.0.0/24"]
 }
 
 # resource "google_compute_global_address" "guacamole-external" {

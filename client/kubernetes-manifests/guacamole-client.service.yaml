@@ -22,7 +22,8 @@ metadata:
     cloud.google.com/neg: '{"ingress": true}'
     beta.cloud.google.com/backend-config: '{"default": "guacamole-config-default"}'
 spec:
-  type: NodePort
+  # type: NodePort
+  type: ClusterIP
   selector:
     app: guacamole-client
   ports:
