@@ -22,7 +22,7 @@ metadata:
         # kubernetes.io/ingress.global-static-ip-name: guacamole-external
         kubernetes.io/ingress.class: "gce-internal"
         kubernetes.io/ingress.regional-static-ip-name: "guacamole-internal"
-        networking.gke.io/managed-certificates: guacamole-client-cert
+        # networking.gke.io/managed-certificates: guacamole-client-cert
 spec:
     defaultBackend:
         service:

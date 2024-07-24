@@ -21,7 +21,7 @@ resource "google_container_cluster" "gke" {
   network            = google_compute_network.vpc.id
   subnetwork         = google_compute_subnetwork.subnet.name
 
-  enable_l4_ilb_subsetting = true
+  # enable_l4_ilb_subsetting = true
   private_cluster_config {
     enable_private_nodes    = true
     enable_private_endpoint = false
