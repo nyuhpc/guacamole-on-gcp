@@ -28,7 +28,8 @@ resource "google_container_cluster" "gke" {
   }
 
   enable_autopilot = true
-
+  deletion_protection = false 
+  
   #Updated to TF Provider 5.6, no longer need to explicityly define the below block, as it's the default now
   #When using TF provider <4.80, need to explicitly define CLOUD_DNS as cluster_dns per b/295958728
   #dns_config {

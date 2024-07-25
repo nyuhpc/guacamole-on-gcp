@@ -79,6 +79,9 @@ module "project-services" {
   project_id = var.project_id
 
   activate_apis = toset(var.required_apis)
+
+  disable_dependent_services = false
+  disable_services_on_destroy = false
 }
 
 # resource "google_iap_brand" "project_brand" {
