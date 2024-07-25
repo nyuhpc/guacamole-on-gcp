@@ -17,13 +17,16 @@
 resource "google_project_iam_member" "iap-tcp-user" {
   project = var.project_id
   role    = "roles/iap.tunnelResourceAccessor"
-  member  = "user:${data.google_client_openid_userinfo.me.email}"
+  # member  = "user:${data.google_client_openid_userinfo.me.email}"
+  member = "user:mpl328@nyu.edu"
 }
 
 resource "google_project_iam_member" "iap-web-user" {
   project = var.project_id
   role    = "roles/iap.httpsResourceAccessor"
-  member  = "user:${data.google_client_openid_userinfo.me.email}"
+  # member  = "user:${data.google_client_openid_userinfo.me.email}"
+  member = "user:mpl328@nyu.edu"
+
 }
 
 #resource "google_service_account" "cluster_service_account" {
