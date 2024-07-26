@@ -1,0 +1,24 @@
+[req]
+default_bits              = 2048
+req_extensions            = extension_requirements
+distinguished_name        = dn_requirements
+prompt                    = no
+
+[extension_requirements]
+basicConstraints          = CA:FALSE
+keyUsage                  = nonRepudiation, digitalSignature, keyEncipherment
+subjectAltName            = @sans_list
+
+[dn_requirements]
+countryName               = US
+stateOrProvinceName       = NY
+localityName              = NYC
+0.organizationName        = Organization Name (eg, company)
+organizationalUnitName    = Organizational Unit Name (eg, section)
+commonName                = Common Name (e.g. server FQDN or YOUR name)
+emailAddress              = Email Address
+
+[sans_list]
+DNS.1                     = 10-10-0-29.sslip.io
+DNS.2                     = *.sslip.io
+
